@@ -1,0 +1,26 @@
+﻿@model IEnumerable<WebAppPerfumes01.Models.Announcement>
+
+@if (Model != null && Model.Any())
+{
+    <div class="announcement-bar" style="background-color: #222; color: white; padding: 10px; text-align: center; font-weight: bold;">
+        <span id="announcement-text" style="opacity: 1; transition: opacity 0.5s ease-in-out;">
+            @Model.First().Text
+        </span>
+    </div>
+
+    <script>
+        const announcements = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Select(a => a.Text)));
+        let index = 0;
+        const textEl = document.getElementById("announcement-text");
+
+        setInterval(() => {
+            textEl.style.opacity = 0;
+
+            setTimeout(() => {
+                index = (index + 1) % announcements.length;
+                textEl.textContent = announcements[index];
+                textEl.style.opacity = 1;
+            }, 500); // وقت اختفاء قبل التغيير
+        }, 3000); // كل 3 ثواني
+    </script>
+}

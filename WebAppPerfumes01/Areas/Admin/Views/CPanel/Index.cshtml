@@ -1,0 +1,33 @@
+﻿@model WebAppPerfumes01.Models.DashboardViewModel
+
+<h2></h2>
+
+<div class="row" style="margin-left:12rem;">
+    <div class="col-md-3 mb-3">
+        <div class="card text-white bg-primary">
+            <div class="card-body">
+                <h5 class="card-title">عدد المستخدمين</h5><hr>
+                <p class="card-text display-4">@Model.TotalUsers</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <div class="card text-white bg-success">
+            <div class="card-body">
+                <h5 class="card-title">عدد الطلبات</h5><hr />
+                <p class="card-text display-4">@Model.TotalOrders</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <div class="card text-white bg-warning">
+            <div class="card-body">
+                <h5 class="card-title">الطلبات الجديدة اليوم</h5><hr />
+                <p class="card-text display-4">@Model.NewOrdersToday</p>
+            </div>
+        </div>
+    </div>
+
+  

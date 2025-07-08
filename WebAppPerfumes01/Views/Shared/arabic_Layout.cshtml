@@ -1,0 +1,503 @@
+﻿
+@* <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Perfume store</title>
+    <link rel="stylesheet" href="~/Perfume-Store-main/styles/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
+    <style>
+        .lang-list a.active {
+            background-color: #E3D7D7;
+            color: black;
+        }
+
+        .lang-list a {
+            text-decoration: none; /* يلغي التسطير تحت كل الروابط */
+        }
+
+        .perfume-img {
+            width: 150px; /* حجم الصورة الأساسي */
+            height: auto;
+            margin: 10px;
+            border-radius: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+            .perfume-img:hover {
+                transform: scale(1.1); /* تكبير عند الإشارة */
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* ظل جميل */
+            }
+
+        .language-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .language-button {
+            background-color: transparent;
+            color: black;
+            border: 1px solid black;
+            padding: 8px 12px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .language-menu {
+            display: none;
+            position: absolute;
+            background-color: white;
+            color: black;
+            min-width: 80px;
+            box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+            z-index: 1000;
+            border-radius: 4px;
+            margin-top: 4px;
+            padding: 0;
+            list-style: none;
+        }
+
+            .language-menu li a {
+                color: black;
+                padding: 8px 12px;
+                text-decoration: none;
+                display: block;
+            }
+
+                .language-menu li a:hover {
+                    background-color: #f0f0f0;
+                }
+    </style>
+</head>
+<body>
+    @await Component.InvokeAsync("Announcements")
+
+    <nav class="nav-bar">
+        <div class="nav-bar-links">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Products</a></li>
+                <li><a href="#">Services</a></li>
+                <li><a href="#">Contact Us</a></li>
+            </ul> *@
+        
+            @* <button class="button-style">Order Now</button> *@
+       @*  </div>
+        <a id="logo" asp-action="Index" asp-controller="Language" style="margin-left:12rem;font-family:'Tempus Sans ITC'">أورفان</a>
+
+
+        <div class="user-dropdown" style="position: relative; display: inline-block;">
+            <!-- أيقونة المستخدم -->
+            <i class="fas fa-user fa-lg" onclick="toggleUserMenu()" style="color: black; cursor: pointer;margin-left:28rem;"></i>
+
+            <!-- القائمة -->
+            <ul class="user-menu" id="userMenu" style="display: none; position: absolute; top: 30px; right: 0; background: white; border: 1px solid #ccc; border-radius: 5px; list-style: none; padding: 0; margin: 0; z-index: 1000;">
+                <li><a href="/Account/Login" style="display: block; padding: 8px 12px; text-decoration: none; color: black;" onmouseover="this.style.backgroundColor='#E3D7D7'" onmouseout="this.style.backgroundColor='white'">تسجيل دخول</a></li>
+                <li><a href="/Account/Register" style="display: block; padding: 8px 12px; text-decoration: none; color: black;" onmouseover="this.style.backgroundColor='#E3D7D7'" onmouseout="this.style.backgroundColor='white'">مستخدم </a></li>
+            </ul>
+        </div>
+        <div>
+            <a href="/Cart" style="text-decoration: none;">
+                <i class="fas fa-shopping-cart" style="color: black; font-size: 24px;"></i>
+            </a>
+        </div>
+
+        <!-- مكان الأيقونة والصندوق -->
+        <div style="position: relative; display: inline-block;">
+            <!-- أيقونة البحث -->
+            <i class="fas fa-search" id="searchIcon"
+               style="color: black; font-size: 24px; cursor: pointer;"></i>
+
+            <!-- صندوق البحث -->
+            <form id="searchForm" action="/Search" method="get" style="display: none; position: absolute; top: 30px; right: 0;">
+                <input type="text" name="query" placeholder="ابحث هنا..."
+                       style="padding: 5px 5px; border: 1px solid #ccc; border-radius: 5px; width: 200px;" />
+            </form>
+        </div>
+
+
+
+
+        <div class="language-dropdown">
+            <button onclick="toggleLanguageMenu()" class="language-button">
+                @* عرض اللغة الحالية 
+            </button>
+
+            <ul class="language-menu" id="languageMenu" style="display: none;">
+                <li>
+                    <a asp-controller="Home" asp-action="Index">EN</a>
+                </li>
+                <li>
+                    <a asp-controller="Language" asp-action="Index">AR</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <nav class="nav-bar-responsive">
+        <a id="logo" href="#">أورفان</a>
+        <div class="nav-bar-links">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
+            </svg>
+        </div>
+    </nav>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    <div class="container-1">
+        <div class="container-text">
+            <h1 class="large-text">عطرنا.. سرّ الجاذبية التي لا تُقاوم، استمتع بإحساس يدوم طوال اليوم</h1>
+            <p>عطر يعبر عنك، يرافقك وينعش يومك بكل لحظة.</p>
+            <button class="button-style">تسوق الآن</button>
+        </div>
+        <div id="image-container-1">
+        </div>
+    </div>
+
+
+
+    <div class="container-4">
+        <h1 class="big-text">منتجاتنا</h1>
+        <button class="button-style">عرض جميع المنتجات</button>
+
+
+        <div class="container-4-collection">
+            <div class="col-6 col-md-3 mb-4 text-center">
+                <a href="perfume-details1.html" style="text-decoration: none; display: block; position: relative;">
+
+                    <div style="
+        width: 25rem;
+        height: 30rem;               /* ارتفاع الكونتينر */
+        background-color: #D8D2D2;      /* لون خلفية */
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 15px;
+        position: relative;">
+                        <img src="~/Perfume-Store-main/images/a0fc4378-054d-4e09-a921-9edfa5b7dc46.jpeg"
+                             alt="Chanel Bleu"
+                             style="
+              width: 60%;               /* تصغير الصورة */
+              height: auto;
+              object-fit: contain;
+              border-radius: 10px;
+              transition: transform 0.4s ease;"
+                             onmouseover="this.style.transform='scale(1.2)'"
+                             onmouseout="this.style.transform='scale(1)'" />
+                    </div>
+
+                    <h5 class="mt-2" style="color: white;">Chanel Bleu</h5>
+                </a>
+            </div>
+
+            <div class="col-6 col-md-3 mb-4 text-center">
+                <a href="perfume-details1.html" style="text-decoration: none; display: block; position: relative;">
+
+                    <div style="
+        width: 100%;
+        height: 450px;               /* ارتفاع الكونتينر */
+        background-color: #D8D2D2;      /* لون خلفية */
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 15px;
+        position: relative;">
+                        <img src="~/Perfume-Store-main/images/proxy-image (7).jpeg"
+                             alt="Chanel Bleu"
+                             style="
+              width: 60%;               /* تصغير الصورة */
+              height: auto;
+              object-fit: contain;
+              border-radius: 10px;
+              transition: transform 0.4s ease;"
+                             onmouseover="this.style.transform='scale(1.2)'"
+                             onmouseout="this.style.transform='scale(1)'" />
+                    </div>
+
+                    <h5 class="mt-2" style="color: white;">Chanel Bleu</h5>
+                </a>
+            </div>
+
+
+            <div class="col-6 col-md-3 mb-4 text-center">
+                <a href="perfume-details1.html" style="text-decoration: none; display: block; position: relative;">
+
+                    <div style="
+        width: 100%;
+        height: 450px;               /* ارتفاع الكونتينر */
+        background-color: #D8D2D2;      /* لون خلفية */
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 15px;
+        position: relative;">
+                        <img src="~/Perfume-Store-main/images/proxy-image (9).jpeg"
+                             alt="Chanel Bleu"
+                             style="
+              width: 60%;               /* تصغير الصورة */
+              height: auto;
+              object-fit: contain;
+              border-radius: 10px;
+              transition: transform 0.4s ease;"
+                             onmouseover="this.style.transform='scale(1.2)'"
+                             onmouseout="this.style.transform='scale(1)'" />
+                    </div>
+
+                    <h5 class="mt-2" style="color: white;">Chanel Bleu</h5>
+                </a>
+            </div>
+
+
+            <div class="col-6 col-md-3 mb-4 text-center">
+                <a href="perfume-details1.html" style="text-decoration: none; display: block; position: relative;">
+
+                    <div style="
+        width: 100%;
+        height: 450px;               /* ارتفاع الكونتينر */
+        background-color: #D8D2D2;      /* لون خلفية */
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 15px;
+        position: relative;">
+                        <img src="~/Perfume-Store-main/images/proxy-image (12).jpeg"
+                             alt="Chanel Bleu"
+                             style="
+              width: 60%;               /* تصغير الصورة */
+              height: auto;
+              object-fit: contain;
+              border-radius: 10px;
+              transition: transform 0.4s ease;"
+                             onmouseover="this.style.transform='scale(1.2)'"
+                             onmouseout="this.style.transform='scale(1)'" />
+                    </div>
+
+                    <h5 class="mt-2" style="color: white;">Chanel Bleu</h5>
+                </a>
+            </div>
+            <div class="col-6 col-md-3 mb-4 text-center">
+                <a href="perfume-details1.html" style="text-decoration: none; display: block; position: relative;">
+
+                    <div style="
+        width: 100%;
+        height: 450px;               /* ارتفاع الكونتينر */
+        background-color: #D8D2D2;      /* لون خلفية */
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 15px;
+        position: relative;">
+                        <img src="~/Perfume-Store-main/images/proxy-image (13).jpeg"
+                             alt="Chanel Bleu"
+                             style="
+              width: 60%;               /* تصغير الصورة */
+              height: auto;
+              object-fit: contain;
+              border-radius: 10px;
+              transition: transform 0.4s ease;"
+                             onmouseover="this.style.transform='scale(1.2)'"
+                             onmouseout="this.style.transform='scale(1)'" />
+                    </div>
+
+                    <h5 class="mt-2" style="color: white;">Chanel Bleu</h5>
+                </a>
+            </div>
+
+            <div class="col-6 col-md-3 mb-4 text-center">
+                <a href="perfume-details1.html" style="text-decoration: none; display: block; position: relative;">
+
+                    <div style="
+        width: 100%;
+        height: 450px;               /* ارتفاع الكونتينر */
+        background-color: #D8D2D2;      /* لون خلفية */
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 15px;
+        position: relative;">
+                        <img src="~/Perfume-Store-main/images/12p.jpeg"
+                             alt="Chanel Bleu"
+                             style="
+              width: 60%;               /* تصغير الصورة */
+              height: auto;
+              object-fit: contain;
+              border-radius: 10px;
+              transition: transform 0.4s ease;"
+                             onmouseover="this.style.transform='scale(1.2)'"
+                             onmouseout="this.style.transform='scale(1)'" />
+                    </div>
+
+                    <h5 class="mt-2" style="color: white;">Chanel Bleu</h5>
+                </a>
+            </div>
+
+
+        </div>
+    </div>
+
+    <section id="why-choose-us" style="background-color: #f8f8f8; padding: 60px 20px; direction: rtl; font-family: 'Cairo', sans-serif;">
+        <div style="text-align: center; margin-bottom: 40px;">
+            <h2 style="font-size: 2.5rem; margin-bottom: 10px;">لماذا نحن؟</h2>
+            <p style="font-size: 1.1rem; color: #666;">اكتشف ما الذي يجعل متجرنا وجهتك الأفضل للعطور</p>
+        </div>
+
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; max-width: 1200px; margin: auto;">
+
+            <!-- خدمة 1 -->
+            <div style="background: white; padding: 30px; border-radius: 12px; width: 260px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); text-align: center;">
+                <i class="fas fa-truck-fast" style="font-size: 40px; color: #333; margin-bottom: 15px;"></i>
+                <h4>توصيل سريع</h4>
+                <p style="color: #555;">نوصّل طلباتك بسرعة وأمان إلى أي مكان.</p>
+            </div>
+
+            <!-- خدمة 2 -->
+            <div style="background: white; padding: 30px; border-radius: 12px; width: 260px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); text-align: center;">
+                <i class="fas fa-award" style="font-size: 40px; color: #333; margin-bottom: 15px;"></i>
+                <h4>جودة عالية</h4>
+                <p style="color: #555;">نقدّم لك عطورًا متميزة مصنوعة من أفضل المكونات.</p>
+            </div>
+
+            <!-- خدمة 3 -->
+            <div style="background: white; padding: 30px; border-radius: 12px; width: 260px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); text-align: center;">
+                <i class="fas fa-lock" style="font-size: 40px; color: #333; margin-bottom: 15px;"></i>
+                <h4>دفع آمن</h4>
+                <p style="color: #555;">مدفوعاتك محمية بأعلى معايير الأمان.</p>
+            </div>
+
+            <!-- خدمة 4 -->
+            <div style="background: white; padding: 30px; border-radius: 12px; width: 260px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); text-align: center;">
+                <i class="fas fa-shopping-cart" style="font-size: 40px; color: #333; margin-bottom: 15px;"></i>
+                <h4>تسوق إلكتروني</h4>
+                <p style="color: #555;">تصفح واشتري بكل راحة من منزلك وفي أي وقت.</p>
+            </div>
+
+        </div>
+    </section>
+
+
+
+    <footer id="footer" style="background-color: #D8D2D2; color: black; padding: 40px 20px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 30px; font-family: sans-serif;">
+
+        <div style="flex: 1 1 250px;">
+            <h2 style="font-size: 24px; margin-bottom: 15px;">أورفان</h2>
+            <p>
+                أورفان ليست مجرد رائحة، بل تجربة متكاملة. كل زجاجة تحكي قصة من الأناقة والعمق والمشاعر.
+                نصنع عطور أورفان بعناية، مستخدمين مكونات مختارة بعناية لتمنحك أثرًا يدوم، وعبيرًا لا يُنسى، يبقى في الذاكرة كما في الأجواء.
+            </p>
+     
+            <p style="margin-top: 20px; font-size: 15px;">
+                2025 ©  أورفان – جميع الحقوق محفوظة
+            </p>
+        </div>
+
+        <div style="flex: 1 20px;">
+        </div>
+
+        <div style="flex: 1 1 200px;">
+            <h3 style="font-size: 18px; margin-bottom: 15px;">تواصل معنا</h3>
+            <p style="font-size: 14px;">Tel: (+12) 345 678 910</p>
+            <p style="font-size: 14px;">Email: info@essence.com</p>
+            <p style="font-size: 14px;"> United Arab Emirates</p>
+            <div style="margin-top: 15px;">
+                <a href="#" target="_blank"><img src="~/Perfume-Store-main/logos/facebook.png" alt="Facebook" style="width: 28px; margin-right: 10px;"></a>
+                <a href="#" target="_blank"><img src="~/Perfume-Store-main/logos/instagram.png" alt="Instagram" style="width: 28px; margin-right: 10px;"></a>
+                <a href="#" target="_blank"><img src="~/Perfume-Store-main/logos/wapp.png" alt="Pinterest" style="width: 4.9rem;margin-left: -1.5rem;margin-bottom: -0.7rem;"></a>
+            </div>
+        </div>
+
+        <!-- سجل ايميلك وطرق الدفع -->
+        <div style="flex: 1 1 250px;">
+            <h3 style="font-size: 18px; margin-bottom: 15px;">سجل ايميلك  </h3>
+            <form style="display: flex;">
+                <input type="email" placeholder="أدخل الايميل الخاص بك" style="flex: 1; padding: 8px; border-radius: 4px 0 0 4px; border: none;">
+                <button type="submit" style="padding: 8px 16px; background-color: #ffcc00; border: none; border-radius: 0 4px 4px 0;">تسجيل</button>
+            </form>
+
+            <h4 style="margin-top: 25px;">الدفع</h4>
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <i class="fa-brands fa-cc-visa fa-2x"></i> <!-- Visa Blue -->
+                <i class="fa-brands fa-cc-mastercard fa-2x"></i> <!-- MasterCard Red -->
+                <i class="fa-brands fa-cc-paypal fa-2x"></i> <!-- PayPal Blue -->
+                @* <i class="fa-solid fa-money-bill-wave fa-2x"></i> <!-- Cash Green -->
+            </div>
+        </div>
+
+    </footer> 
+@*     <div style="flex: 1 1 250px; margin-left:40rem;">
+      
+
+        <p style="margin-top: 20px; font-size: 15px;font-family:'Cascadia Mono'">
+            2025 ©  أورفان – جميع الحقوق محفوظة
+        </p>
+    </div>
+    <script>
+        function toggleLanguageMenu() {
+            const menu = document.getElementById("languageMenu");
+            menu.style.display = (menu.style.display === "block") ? "none" : "block";
+        }
+
+        // إغلاق القائمة إذا ضغط المستخدم خارجها
+        window.onclick = function(event) {
+            if (!event.target.matches('.language-button')) {
+                var dropdowns = document.getElementsByClassName("language-menu");
+                for (let i = 0; i < dropdowns.length; i++) {
+                    dropdowns[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+    <script>
+        const searchIcon = document.getElementById("searchIcon");
+        const searchForm = document.getElementById("searchForm");
+
+        // عند الضغط على الأيقونة يظهر صندوق البحث
+        searchIcon.addEventListener("click", () => {
+            if (searchForm.style.display === "none") {
+                searchForm.style.display = "block";
+                searchForm.querySelector('input').focus();
+            } else {
+                searchForm.style.display = "none";
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener("click", function (event) {
+            const isClickInside = searchForm.contains(event.target) || searchIcon.contains(event.target);
+
+            if (!isClickInside) {
+                searchForm.style.display = "none";
+            }
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function toggleUserMenu() {
+            const menu = document.getElementById("userMenu");
+            menu.style.display = menu.style.display === "block" ? "none" : "block";
+        }
+
+        document.addEventListener("click", function (event) {
+            const menu = document.getElementById("userMenu");
+            const icon = document.querySelector(".fa-user");
+
+            if (!menu.contains(event.target) && event.target !== icon) {
+                menu.style.display = "none";
+            }
+        });
+    </script>
+
+</body>
+</html> *@

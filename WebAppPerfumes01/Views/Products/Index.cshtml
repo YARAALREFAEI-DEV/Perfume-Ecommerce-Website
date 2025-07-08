@@ -1,0 +1,64 @@
+﻿@model IEnumerable<WebAppPerfumes01.Models.Product>
+@using Microsoft.AspNetCore.Localization
+
+@{
+    ViewData["Title"] = "All Products";
+    Layout = "~/Views/Shared/partialLayout.cshtml";
+    ViewData["ActivePage"] = "Index.cshtml";
+
+}
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
+<style>
+    .card-img-top {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .card-img-top:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+    .card-img-top {
+        transition: transform 0.3s ease;
+    }
+
+        .card-img-top:hover {
+            transform: scale(1.1);
+        }
+</style>
+
+<br />
+<br />
+<div class="container py-5">
+    <h2 class="text-center mb-4">@Localizer["products"]</h2>
+    <div class="row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3">
+        @foreach (var product in Model)
+        {
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <a href="@Url.Action("Details", "Home", new { id = product.Id })">
+                        <img src="@product.ImageUrl" class="card-img-top" alt="@product.Name" style="height: 160px; object-fit: cover;">
+                    </a>
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">@product.Name</h5>
+                        <div class="mt-auto">
+                            <p class="fw-bold">@product.Price.ToString("0.000") @Localizer["coin"]</p>
+                            <a href="@Url.Action("Details", "Home", new { id = product.Id })" class="btn btn-outline-light w-100" style="background-color:antiquewhite;color:black;">@Localizer["vitem"]</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+<!-- سكشن تحفيزي أسفل المنتجات -->
+<section class="bg-dark text-white py-5 mt-5">
+    <div class="container text-center">
+        <h3 style="color:antiquewhite;" class="mb-3">هل تبحث عن منتج مميز؟</h3>
+		<p style="color:antiquewhite;">تصفح مجموعتنا الرائعة من العطور المختارة بعناية.</p>
+        <a href="/Home/Contact" class="btn btn-outline-light">تواصل معنا</a>
+    </div>
+</section>

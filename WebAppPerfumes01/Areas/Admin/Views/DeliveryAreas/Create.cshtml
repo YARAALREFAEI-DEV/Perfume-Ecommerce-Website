@@ -1,0 +1,39 @@
+﻿@model WebAppPerfumes01.Models.DeliveryArea
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Add New</h1>
+
+<h4>Delivery Location</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="AreaName" class="control-label">
+                    Location Name
+                </label>
+                <input asp-for="AreaName" class="form-control" />
+                <span asp-validation-for="AreaName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DeliveryFee" class="control-label">
+                    Delivery Price
+                </label>
+                <input asp-for="DeliveryFee" class="form-control" />
+                <span asp-validation-for="DeliveryFee" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

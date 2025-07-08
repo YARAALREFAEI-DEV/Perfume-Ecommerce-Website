@@ -1,0 +1,53 @@
+﻿@model WebAppPerfumes01.Models.SiteSettings
+
+@{
+    ViewData["Title"] = "تعديل إعدادات الموقع";
+}
+
+<h2 class="mb-4">تعديل إعدادات الموقع</h2>
+
+<form asp-action="Edit" method="post">
+    <div class="form-group">
+        <label asp-for="Phone" class="control-label">رقم الهاتف</label>
+        <input asp-for="Phone" class="form-control" placeholder="(+12) 345 678 910"  />
+        <span asp-validation-for="Phone" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Email" class="control-label">البريد الإلكتروني</label>
+        <input asp-for="Email" class="form-control" placeholder="info@essence.com"  />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Address" class="control-label">العنوان</label>
+        <input asp-for="Address" class="form-control" placeholder="United Arab Emirates"  />
+        <span asp-validation-for="Address" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="FacebookUrl" class="control-label">رابط فيسبوك</label>
+        <input asp-for="FacebookUrl" class="form-control" placeholder="https://facebook.com/..."  />
+        <span asp-validation-for="FacebookUrl" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="InstagramUrl" class="control-label">رابط إنستغرام</label>
+        <input asp-for="InstagramUrl" class="form-control" placeholder="https://instagram.com/..."  />
+        <span asp-validation-for="InstagramUrl" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="WhatsAppUrl" class="control-label">رابط واتساب</label>
+        <input asp-for="WhatsAppUrl" class="form-control" placeholder="https://wa.me/..."  />
+        <span asp-validation-for="WhatsAppUrl" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">حفظ التعديلات</button>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

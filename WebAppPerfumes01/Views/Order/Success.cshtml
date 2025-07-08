@@ -1,0 +1,30 @@
+﻿@using Microsoft.AspNetCore.Localization
+
+@{
+    ViewBag.Title = "Order Success";
+    Layout = "~/Views/Shared/partialLayout.cshtml";
+}
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
+<h2>
+    @Localizer["sucess"]
+
+</h2>
+<p>
+    @Localizer["thank"]
+
+</p>
+
+<!-- سكربت لمنع الرجوع للصفحة السابقة -->
+<script>
+    // منع الرجوع للخلف
+    history.pushState(null, "", location.href);
+    window.onpopstate = function () {
+        window.location.replace('/Home/Index');
+    };
+
+    // إعادة التوجيه بعد 5 ثوانٍ (5000 مللي ثانية)
+    setTimeout(function () {
+        window.location.href = '/Home/Index';
+    }, 3000);
+</script>

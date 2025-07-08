@@ -1,0 +1,66 @@
+﻿@using Microsoft.AspNetCore.Localization
+
+@{
+    ViewData["Title"] = "Contact Us";
+    Layout = "~/Views/Shared/partialLayout.cshtml";
+    ViewData["ActivePage"] = "Contact.cshtml";
+
+}
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2 class="text-center mb-4">@Localizer["ContactUs"]</h2>
+            <form asp-action="SubmitContact" asp-controller="Home" method="POST">
+                <!-- Name -->
+                <div class="mb-3">
+                    <label for="name" class="form-label"> @Localizer["name"]</label>
+                    <input type="text" class="form-control" id="name" name="Name" required>
+                </div>
+
+                <!-- Email -->
+                <div class="mb-3">
+                    <label for="email" class="form-label">@Localizer["Email"]</label>
+                    <input type="email" class="form-control" id="email" name="Email">
+                </div>
+
+                <!-- Phone -->
+                <div class="mb-3">
+                    <label for="phone" class="form-label">@Localizer["phone"]</label>
+                    <input type="tel" class="form-control" id="phone" name="Phone" required>
+                </div>
+
+                <!-- Message -->
+                <div class="mb-6">
+                    <label for="message" class="form-label">@Localizer["Message"]</label>
+                    <input type="text" class="form-control" id="phone" name="Message" required>
+                </div>
+                <br />
+                <br />
+
+
+                <!-- Send Button -->
+                <button type="submit" class="btn btn-dark w-100">@Localizer["send"]</button>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+
+<br />
+<br />
+<br />
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const form = document.querySelector("form");
+        form.addEventListener("submit", function() {
+            const emailInput = document.getElementById("email");
+            if (!emailInput.value) {
+                emailInput.value = "Not Provided";
+            }
+        });
+    });
+</script>

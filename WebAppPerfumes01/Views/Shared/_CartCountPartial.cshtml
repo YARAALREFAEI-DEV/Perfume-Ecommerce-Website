@@ -1,0 +1,4 @@
+﻿@{
+    var cartCount = Context.Session.GetInt32("CartCount") ?? 0;
+}
+<span id="cart-count" class="badge badge-pill badge-danger" style="color:black;">@cartCount</span>

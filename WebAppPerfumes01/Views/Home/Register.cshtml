@@ -1,0 +1,85 @@
+﻿@using Microsoft.AspNetCore.Localization
+
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/partialLayout.cshtml";
+}
+@model WebAppPerfumes01.Models.ViewModels.RegisterViewModel
+
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
+
+<style>
+    body {
+        background-color: whitesmoke;
+        color: black;
+    }
+
+    .register-box {
+        max-width: 450px;
+        margin: 80px auto;
+        padding: 30px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h3 {
+        color: black;
+    }
+</style>
+@if (ViewBag.SuccessMessage != null)
+{
+    <div class="alert alert-success">
+        @ViewBag.SuccessMessage
+    </div>
+
+    <script>
+        // الانتظار 3 ثواني ثم التحويل إلى صفحة تسجيل الدخول
+        setTimeout(function() {
+            window.location.href = '@Url.Action("Login", "Home")';
+        }, 3000);
+    </script>
+}
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <p>@error.ErrorMessage</p>
+        }
+    </div>
+}
+
+
+
+<div class="register-box">
+    <h3 class="text-center mb-4">@Localizer["CreateAccount"]</h3>
+    <form asp-action="Register" asp-controller="Home" method="post">
+        <div class="mb-3">
+            <label asp-for="FirstName" class="form-label">@Localizer["FirstName"]</label>
+            <input asp-for="FirstName" class="form-control" />
+            <span asp-validation-for="FirstName" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="LastName" class="form-label">@Localizer["LastName"]</label>
+            <input asp-for="LastName" class="form-control" />
+            <span asp-validation-for="LastName" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Email" class="form-label">@Localizer["Email"]</label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span> <!-- تظهر هنا رسالة ModelState -->
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">@Localizer["Register"]</button>
+    </form>
+    <div class="text-center mt-3">
+        <p>@Localizer["Already have an account"] <a href="@Url.Action("Login", "Home")">@Localizer["LoginHere"]</a></p>
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+    </div>
+</div>
+
+

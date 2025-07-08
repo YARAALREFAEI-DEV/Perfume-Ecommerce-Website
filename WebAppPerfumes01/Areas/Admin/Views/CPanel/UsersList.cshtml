@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityUser>
+
+@{
+    ViewData["Title"] = "قائمة المستخدمين";
+}
+
+<h2 class="mb-4">قائمة المستخدمين</h2>
+
+<table class="table table-bordered table-hover text-center">
+    <thead class="table-dark">
+        <tr>
+            <th>#</th>
+            <th>البريد الإلكتروني</th>
+            <th>اسم المستخدم</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Any())
+        {
+            int i = 1;
+            foreach (var user in Model)
+            {
+                <tr>
+                    <td>@i</td>
+                    <td>@user.Email</td>
+                    <td>@user.UserName</td>
+                </tr>
+                i++;
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="4">لا يوجد مستخدمين.</td>
+            </tr>
+        }
+    </tbody>
+</table>

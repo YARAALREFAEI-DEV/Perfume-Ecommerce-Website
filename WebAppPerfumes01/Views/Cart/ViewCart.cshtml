@@ -1,0 +1,251 @@
+﻿@using Microsoft.AspNetCore.Localization
+
+@{
+    Layout = "~/Views/Shared/partialLayout.cshtml";
+}
+@model List<WebAppPerfumes01.Models.CartItem>
+
+@{
+    int totalQuantity = Model.Sum(i => i.Quantity);
+}
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
+<style>
+
+    .quantity-controls {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid #000; /* تحديد واضح للإطار */
+        border-radius: 8px;
+        padding: 10px;
+        min-width: 140px; /* توسيع المربع */
+        gap: 12px; /* مسافة بين العناصر */
+    }
+
+    .quantity-button {
+        background-color: white; /* تبقي الخلفية بيضاء */
+        color: black;
+        border: 2px solid #000; /* توضيح الزر */
+        padding: 10px 16px; /* تكبير الزر */
+        font-size: 1.6rem; /* تكبير الرمز + و - */
+        font-weight: bold;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    .quantity-value {
+        font-size: 1.6rem;
+        min-width: 30px;
+        text-align: center;
+    }
+
+
+    .cart-container {
+        max-width: 900px;
+        margin: auto;
+        padding: 15px;
+        font-size: 0.95rem;
+    }
+
+    .cart-header {
+        text-align: center;
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+    }
+
+    .cart-labels {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        font-weight: bold;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .label {
+        flex-basis: 18%;
+        text-align: center;
+        font-size: 0.9rem;
+    }
+
+    .cart-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 10px;
+        border-bottom: 1px solid #ccc;
+        padding: 10px 0;
+    }
+
+        .cart-item img {
+            width: 60px;
+            height: 60px;
+            border-radius: 5px;
+            object-fit: cover;
+        }
+
+    .cart-info {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .product-name {
+        font-weight: bold;
+        color: black;
+        font-size: 0.95rem;
+        text-decoration: underline;
+    }
+
+    .cart-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.85rem;
+        flex-wrap: wrap;
+    }
+
+    .quantity-controls {
+        display: flex;
+        align-items: center;
+      
+        padding: 2px;
+    }
+
+    .quantity-button {
+        background-color: white;
+        padding: 2px 6px;
+        font-size: 1.9rem;
+        cursor: pointer;
+    }
+
+        .quantity-button:disabled {
+            color: gray;
+            background-color: #f0f0f0;
+            cursor: not-allowed;
+        }
+
+    .quantity-value {
+        padding: 0 6px;
+    }
+
+    .remove-button {
+        background: none;
+        border: none;
+        color: black;
+        font-size: 1rem;
+        cursor: pointer;
+    }
+
+    .total-line {
+        text-align: right;
+        font-size: 1rem;
+        margin-top: 15px;
+        font-weight: bold;
+    }
+
+    .btn-checkout,
+    .btn-continue {
+        margin: 10px 5px;
+        font-size: 0.9rem;
+        padding: 6px 14px;
+    }
+
+    .empty-cart-message {
+        text-align: center;
+        font-size: 1.2rem;
+        margin-top: 30px;
+    }
+
+  
+</style>
+<br />
+
+<div class="cart-container">
+    @if (Model != null && Model.Any())
+    {
+        <div class="cart-header">🛒 @Localizer["cart"]</div>
+        <br />
+        <!-- labels above items -->
+        <div class="cart-labels">
+            <div class="label">@Localizer["item"]</div>
+            <div class="label">@Localizer["price"]</div>
+            <div class="label">@Localizer["QTY"]</div>
+            <div class="label"></div>
+            @* <div class="label">@Localizer["sprice"]</div> *@
+        </div>
+
+        @foreach (var item in Model)
+        {
+            <div class="cart-item">
+                <!-- Item (Image + Name) -->
+                <div style="flex-basis: 18%; text-align: center;">
+                    <img src="@item.ImageUrl" alt="@item.Name" /><br />
+                    <a href="@Url.Action("Details", "Home", new { id = item.ProductId })" class="product-name">@item.Name</a>
+                </div>
+
+                <!-- Price -->
+                <div style="flex-basis: 18%; text-align: center;">
+                    @item.Price.ToString("0.00") 
+                    @Localizer["coin"]
+                </div>
+
+                <!-- Quantity -->
+                <div style="flex-basis: 18%; text-align: center;">
+                    <form method="post" asp-action="UpdateQuantity" style="margin:0;">
+                        <input type="hidden" name="productId" value="@item.ProductId" />
+                        <div class="quantity-controls">
+                            <button type="submit" name="actionType" value="decrease" class="quantity-button">-</button>
+                            <span class="quantity-value">@item.Quantity</span>
+                            @if (totalQuantity < 5)
+                            {
+                                <button type="submit" name="actionType" value="increase" class="quantity-button">+</button>
+                            }
+                            else
+                            {
+                                <button type="button" disabled class="quantity-button">+</button>
+                            }
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Remove -->
+                <div style="flex-basis: 18%; text-align: center;">
+                    <form method="post" asp-action="RemoveFromCart" style="margin:0;">
+                        <input type="hidden" name="productId" value="@item.ProductId" />
+                        <button type="submit" class="remove-button"><i class="fas fa-trash"></i></button>
+                    </form>
+                </div>
+
+                <!-- Total -->
+               @*  <div style="flex-basis: 18%; text-align: center;">
+                    @((item.Price * item.Quantity).ToString("0.00"))
+                    @Localizer["coin"]
+                </div> *@
+            </div>
+        }
+
+        <div class="total-line">
+            @Localizer["tpric"]: @Model.Sum(i => i.Price * i.Quantity).ToString("0.00")
+            @Localizer["coin"]
+        </div>
+
+        <div style="text-align:center;">
+			<a href="@Url.Action("Index", "Products")" class="btn btn-outline-dark btn-continue"> @Localizer["shopping"] </a>
+
+            <a href="@Url.Action("Checkout", "Cart")" class="btn btn-dark btn-checkout">@Localizer["buy"]</a>
+        </div>
+    }
+    else
+    {
+        <p class="empty-cart-message">@Localizer["empt"]</p>
+        <div style="text-align: center;">
+            <a href="@Url.Action("Index", "Products")" class="btn btn-dark"> @Localizer["shoping"] </a>
+        </div>
+    }
+</div>
+
+            <br />
+            <br />
+            <br />

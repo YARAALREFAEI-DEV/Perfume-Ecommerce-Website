@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- https://go.microsoft.com/fwlink/?LinkID=208121. -->
+<Project>
+  <PropertyGroup>
+    <_PublishTargetUrl>C:\Users\HP\Desktop\PROJECTS\WebAppPerfumes01\WebAppPerfumes01\bin\Release\net8.0\onlinestore\</_PublishTargetUrl>
+    <History>True|2025-06-01T10:26:36.6630215Z||;True|2025-06-01T13:07:42.2289084+03:00||;True|2025-06-01T13:02:49.1332736+03:00||;True|2025-06-01T12:54:25.4618468+03:00||;True|2025-06-01T03:18:19.6508408+03:00||;False|2025-06-01T03:16:02.8931472+03:00||;True|2025-06-01T03:02:53.8177538+03:00||;True|2025-06-01T02:16:22.0018222+03:00||;True|2025-06-01T02:15:57.9518028+03:00||;True|2025-06-01T00:56:19.6041616+03:00||;True|2025-06-01T00:13:34.6644367+03:00||;True|2025-05-31T23:29:55.1677430+03:00||;True|2025-05-31T20:36:00.7884299+03:00||;</History>
+    <LastFailureDetails />
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="DefaultConnection">
+      <Value>Server=PerfumeOnline.mssql.somee.com%3bDatabase=Perfum010SiteDb%3bUser Id=YARA_2020_SQLLogin_1%3bPassword=LOGIN_PASSWORD%3bTrustServerCertificate=True%3b</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,73 @@
+﻿@model IEnumerable<WebAppPerfumes01.Models.Product>
+<style>
+    .product-box {
+        width: 20rem;
+        height: 340px;
+        overflow: hidden;
+        border-radius: 15px;
+        position: relative;
+    }
+
+    .product-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* تغطي كامل الصندوق بدون فراغ */
+        border-radius: 15px;
+        transition: transform 0.4s ease;
+        display: block;
+    }
+
+        .product-img:hover {
+            transform: scale(1.05); /* تأثير خفيف عند التحويم */
+        }
+
+    .ribbon {
+        position: absolute;
+        top: 25%;
+        left: -35px;
+        background-color: red;
+        color: white;
+        transform: rotate(-45deg);
+        width: 180px;
+        text-align: center;
+        font-weight: bold;
+        padding: 6px 0;
+        font-size: 14px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        z-index: 2;
+    }
+
+    h5 {
+        font-size: 1.3rem;
+        font-weight: bold;
+        color: black;
+        text-shadow: 0 0 3px #b8860b;
+    }
+</style>
+
+<br>
+@if (Model != null && Model.Any())
+{
+    <div class="container">
+        <div class="row">
+            @foreach (var product in Model)
+            {
+                <div class="col-6 col-md-3 mb-4 text-center">
+                    <a href="@Url.Action("Details", "Home", new { id = product.Id })"
+                       style="text-decoration: none; display: block; position: relative;">
+                        <div class="product-box">
+                            <img src="@product.ImageUrl" alt="@product.Name" class="product-img" />
+                            <div class="ribbon">الأكثر مبيعًا</div>
+                        </div>
+                        <h5 class="mt-2" style="color: black; font-size: 1rem; font-weight: bold; text-shadow: 0 0 3px #b8860b;">
+                            @product.Name
+                        </h5>
+                        <h5 class="mt-2" style="color: black; font-size: 1rem; font-weight: bold; text-shadow: 0 0 3px #b8860b;">
+                            @product.Price AED
+                        </h5>
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+}

@@ -1,0 +1,45 @@
+﻿@model WebAppPerfumes01.Models.Order
+
+<div class="container mt-5">
+    <h3 class="mb-4 text-center">تفاصيل الطلب  </h3>
+
+    <div class="mb-3">
+        <strong>تاريخ الطلب:</strong> @Model.OrderDate.ToShortDateString()
+    </div>
+    <div class="mb-3">
+		<strong> السعر الإجمالي </strong> @Model.TotalAmount د.إ
+    </div>
+
+    <hr />
+
+    <h4 class="mb-3">المنتجات في هذا الطلب</h4>
+    <table class="table table-bordered text-center">
+        <thead class="table-dark">
+            <tr> 
+                <th>الصورة</th>
+                <th>اسم المنتج</th>
+                <th>الكمية</th>
+                <th>سعر القطعة</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var detail in Model.OrderDetails)
+            {
+                <tr>
+                    <td>
+                        <img src="@detail.Product.ImageUrl" alt="@detail.Product.Name" style="width: 80px; height: auto;" />
+                    </td>
+                    <td>@detail.Product.Name</td>
+                    <td>@detail.Quantity</td>
+                    <td>@detail.Price ADE</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="text-end mt-4">
+        <a href="@Url.Action("Index", "CPanel", new { area = "User" })" class="btn btn-secondary">
+            العودة إلى الطلبات
+        </a>
+    </div>
+</div>

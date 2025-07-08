@@ -1,0 +1,152 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title> User Panel Management</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Bootstrap -->
+	<link href="~/dashboard/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<!-- styles -->
+	<link href="~/dashboard/css/styles.css" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+
+</head>
+<body style="background: linear-gradient(to right, #f8f9fa, #e0e0e0);background-repeat: no-repeat;
+	  background-size: cover;background-color:white;	">
+	<div class="header" style="background-color:black;">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-5">
+					<!-- Logo -->
+					<div class="logo">
+						<h1 style="color:white;"> User Dashboard Management </h1>
+					</div>
+				</div>
+
+				<div class="col-md-2">
+					<div class="navbar navbar-inverse" role="banner">
+						<nav class="collapse navbar-collapse bs-navbar-collapse navbar-right" role="navigation">
+
+						</nav>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="page-content">
+		<div class="row">
+			<div class="col-md-2">
+				<div class="sidebar content-box" style="display: block;">
+
+					<!-- Sidebar Navigation -->
+					<ul class="nav flex-column bg-dark text-white p-3" style="height: 100vh; width: 220px;">
+					
+					@* 	<li class="nav-item mb-3">
+							<a asp-action="Index" asp-controller="Products" class="nav-link text-white">
+								<i class="fas fa-box me-2"></i> Products
+							</a>
+						</li>
+						<li class="nav-item mb-3">
+							<a asp-action="Index" asp-controller="Announcements" class="nav-link text-white">
+								<i class="fas fa-box me-2"></i> Announcements
+							</a>
+						</li> *@
+
+						<li class="nav-item mb-3">
+							<a asp-action="Index" asp-controller="CPanel" class="nav-link text-white">
+								<i class="fas fa-home me-2"></i> Dashboard
+							</a>
+						</li>
+
+						<li class="nav-item mb-3">
+							<a asp-action="Profile" asp-controller="CPanel" class="nav-link text-white">
+								<i class="fas fa-shopping-cart me-2"></i> My Profile
+							</a>
+						</li>
+
+
+					@* 	<li class="nav-item mb-3">
+							<a asp-action="Index" asp-controller="DeliveryAreas" class="nav-link text-white">
+								<i class="fas fa-box me-2"></i> Delivery Areas
+							</a>
+						</li>
+						<li class="nav-item mb-3">
+							<a asp-area="Admin" asp-controller="SiteSettings" asp-action="Edit">
+								<i class="fas fa-box me-2"></i> Site Settings
+							</a>
+						</li>
+
+						<li class="nav-item mb-3">
+							<a asp-action="Index" asp-controller="Customers" class="nav-link text-white">
+								<i class="fas fa-users me-2"></i> Customers
+							</a>
+						</li> *@
+						@* 	<li class="nav-item mb-3">
+							<a asp-action="Index" asp-controller="Reports" class="nav-link text-white">
+								<i class="fas fa-chart-line me-2"></i> Reports
+							</a>
+						</li>
+						<li class="nav-item mb-3">
+							<a asp-action="Settings" asp-controller="Account" class="nav-link text-white">
+								<i class="fas fa-cogs me-2"></i> Settings
+							</a>
+						</li> *@
+						<li>
+							<form id="logoutForm" method="post" asp-action="Logout" asp-controller="CPanel" style="display: inline;">
+								@Html.AntiForgeryToken()
+								<button type="submit" class="btn btn-link" style="color: inherit; text-decoration: none;">
+									<i class="glyphicon glyphicon-log-out"></i> Logout
+								</button>
+							</form>
+						</li>
+					</ul>
+
+
+					@* 	<ul class="nav">
+
+						<li>
+							<form id="logoutForm" method="post" asp-action="Logout" asp-controller="CPanel" style="display: inline;">
+								@Html.AntiForgeryToken()
+								<button type="submit" class="btn btn-link" style="color: inherit; text-decoration: none;">
+									<i class="glyphicon glyphicon-log-out"></i> Logout
+								</button>
+							</form>
+						</li>
+
+					</ul> *@
+				</div>
+			</div>
+			<div class="col-md-10">
+
+
+				@RenderBody()
+
+			</div>
+		</div>
+	</div>
+
+	<script>
+		// إذا جاء المستخدم من صفحة تسجيل الخروج، نمنع الرجوع للصفحة السابقة
+		if (performance.navigation.type === 2) {
+			// إعادة التوجيه إلى نفس الصفحة (الرئيسية)
+			window.location.href = "/";
+		}
+
+		// أو من خلال pushState
+		if (window.history.replaceState) {
+			window.history.pushState(null, "", window.location.href);
+			window.onpopstate = function () {
+				window.location.href = "/";
+			};
+		}
+	</script>
+
+
+	<script src="https://code.jquery.com/jquery.js"></script>
+	<script src="~/dashboard/bootstrap/js/bootstrap.min.js"></script>
+	<script src="~/dashboard/js/custom.js"></script>
+	@RenderSection("Scripts", required: false)
+
+</body>
+</html>

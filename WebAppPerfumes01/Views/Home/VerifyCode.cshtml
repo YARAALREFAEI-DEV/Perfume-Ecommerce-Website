@@ -1,0 +1,66 @@
+﻿@using Microsoft.AspNetCore.Localization
+
+@{
+    ViewData["Title"] = "VerifyCode";
+    Layout = "~/Views/Shared/partialLayout.cshtml";
+}
+@model WebAppPerfumes01.Models.ViewModels.LoginViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
+
+<style>
+    body {
+        background-color: whitesmoke;
+        color: black;
+    }
+    .login-box {
+        max-width: 400px;
+        margin: 80px auto;
+        padding: 30px;
+        background: black;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .other-login-link {
+        color: black !important;
+        text-decoration: underline;
+    }
+
+        .other-login-link:hover {
+            color: black !important;
+            text-decoration: underline;
+        }
+
+    h4, label, a {
+        color: black;
+    }
+</style>
+
+
+<div class="container d-flex justify-content-center align-items-center min-vh-75">
+    <div class="w-100" style="max-width: 450px;background-color:white;">
+        <div class="p-4 border rounded">
+            <div class="mb-2">
+                <h4 class="text-center mb-2">@Localizer["Login"]</h4>
+                <hr />
+                <br />
+                <h4>@Localizer["EnterCode"]</h4>
+                <h6>@Localizer["CodeSentTo"]  <strong>@Model.Email</strong></h6>
+
+                <form method="post" asp-controller="Home" asp-action="VerifyCode">
+                    <input type="hidden" asp-for="Email" />
+                    <div class="mb-3">
+                        <label class="form-label">@Localizer["EnterCode"]</label>
+                        <input asp-for="Code" class="form-control" />
+                        <span asp-validation-for="Code" class="text-danger"></span>
+                    </div>
+                    <button type="submit" class="btn btn-dark w-100" style="background-color:black;">@Localizer["Login"]</button>
+                </form>
+
+                <br /><br />
+                <a href="/Home/Login" class="other-login-link" >@Localizer["LoginWithDifferentEmail"]</a>
+            </div>
+        </div>
+    </div>
+</div>

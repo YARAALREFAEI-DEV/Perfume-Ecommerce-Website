@@ -1,0 +1,233 @@
+﻿@using Microsoft.AspNetCore.Localization
+
+@model WebAppPerfumes01.Models.Product
+@{
+    Layout = "~/Views/Shared/partialLayout.cshtml";
+}
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
+<style>
+    .product-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 30px;
+    }
+
+    .product-image {
+        width: 50%;
+    }
+
+    .product-details {
+        width: 50%;
+        padding-left: 20px;
+    }
+
+    .zoom {
+        transition: transform 0.2s ease-in-out;
+    }
+
+        .zoom:hover {
+            transform: scale(1.1);
+        }
+
+    .price {
+        font-size: 24px;
+        color: #333;
+    }
+
+    .old-price {
+        text-decoration: line-through;
+        color: red;
+        margin-right: 10px;
+    }
+
+    /* ازلت الستايل الخاص بالعداد لأن العداد حذفنا */
+
+    .add-to-cart-btn, .buy-now-btn {
+        margin-top: 20px;
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+
+    .add-to-cart-btn {
+        background-color: #000;
+        color: white;
+        border: none;
+    }
+
+        .add-to-cart-btn:hover {
+            background-color: black;
+        }
+
+    .buy-now-btn {
+        background-color: #000;
+        color: white;
+        border: none;
+    }
+
+        .buy-now-btn:hover {
+            background-color: black;
+        }
+
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.5);
+        padding-top: 60px;
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 500px;
+        border-radius: 5px;
+        text-align: center;
+    }
+
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+</style>
+
+<div class="container">
+    <div class="product-container">
+        <!-- Product Image Section -->
+        <div class="product-image">
+            <img src="@Model.ImageUrl" alt="@Model.Name" class="img-fluid" />
+        </div>
+
+        <!-- Product Details Section -->
+        <div class="product-details">
+            <h2>@Model.Name</h2>
+            @{
+                int wordsPerLine = 4; // حددي كم كلمة في كل سطر
+                var words = Model.Description?.Split(' ');
+                var formattedText = "";
+
+                if (words != null)
+                {
+                    for (int i = 0; i < words.Length; i++)
+                    {
+                        formattedText += words[i] + " ";
+                        if ((i + 1) % wordsPerLine == 0)
+                        {
+                            formattedText += "<br />";
+                        }
+                    }
+                }
+            }
+
+            <p>@Html.Raw(formattedText)</p>
+
+            <p><strong>@Model.Price.ToString("0.00")</strong> @Localizer["coin"]</p>
+
+            <!-- كمية ثابتة بدون عداد -->
+            <input type="hidden" id="quantity" value="1" />
+            <a href="@Url.Action("Index", "Products")" class="btn buy-now-btn">@Localizer["back"]</a>
+
+            <!-- Add to Cart Button -->
+            <button class="btn add-to-cart-btn" id="add-to-cart-btn" data-product-id="@Model.Id">
+                @Localizer["AddToCart"]
+            </button>
+
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h5>@Localizer["additem"] </h5>
+        <h2>@Model.Name</h2>
+        <img src="@Model.ImageUrl" alt="Product Image" class="img-fluid mb-2" />
+        <button class="btn btn-dark" onclick="window.location.href='@Url.Action("ViewCart", "Cart")'">@Localizer["viewcart"] </button>
+        <button class="btn btn-light" style="background-color:wheat;" onclick="window.location.href='@Url.Action("Checkout", "Cart")'">@Localizer["checkout"]</button>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // أزلت جافاسكريبت العداد لأنها غير مستخدمة الآن
+
+    // Show modal when adding to cart
+    var modal = document.getElementById("myModal");
+    var btn = document.getElementById("add-to-cart-btn");
+    var span = document.getElementsByClassName("close")[0];
+
+    btn.onclick = function () {
+        modal.style.display = "block";
+    }
+
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#add-to-cart-btn').click(function () {
+            var productId = $(this).data('product-id'); // استخراج الـ ID من الزر
+            var quantity = parseInt($('#quantity').val()); // دائماً 1
+
+            $.ajax({
+                type: "POST",
+                url: '/Cart/AddToCart',
+                data: {
+                    productId: productId,
+                    quantity: quantity
+                },
+                success: function (response) {
+                    if (response.success) {
+                        // عرض المودال عند النجاح
+                        $('#myModal').show();
+                    } else {
+                        alert("حدث خطأ أثناء الإضافة إلى السلة.");
+                    }
+                },
+                error: function () {
+                    alert("فشل في الاتصال بالخادم.");
+                }
+            });
+        });
+
+        // إغلاق المودال
+        $('.close').click(function () {
+            $('#myModal').hide();
+        });
+
+        $(window).click(function (event) {
+            if (event.target == document.getElementById('myModal')) {
+                $('#myModal').hide();
+            }
+        });
+    });
+</script>

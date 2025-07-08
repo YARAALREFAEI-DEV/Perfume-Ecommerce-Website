@@ -1,0 +1,977 @@
+﻿@using Microsoft.AspNetCore.Localization
+@using WebAppPerfumes01.Data
+@{
+    var rqf = Context.Features.Get<IRequestCultureFeature>();
+    var culture = rqf.RequestCulture.Culture.Name; // "en" أو "ar"
+}
+@inject AppDbContext _context
+@{
+    var settings = _context.SiteSettings.FirstOrDefault();
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Perfume store</title>
+    <link rel="stylesheet" href="~/Perfume-Store-main/styles/styles.css">
+       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <style>
+
+     
+
+
+   .why-us-grid-4 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.feature-box {
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+    font-size: 0.9rem;
+}
+
+.feature-box i {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.feature-box h4 {
+    font-size: 1rem;
+    margin-bottom: 8px;
+}
+
+.feature-box p {
+    font-size: 0.85rem;
+    color: #666;
+}
+
+
+i{color:black;}
+
+          .site-link {
+        text-decoration: none;
+        color: black;
+        transition: color 0.3s ease, text-shadow 0.3s ease;
+    }
+
+    .site-link:hover {
+        color: gold;
+        text-shadow: 0 0 8px #fc2dc8;
+    }
+                .lang-list a.active {
+            background-color: #fc2dc8;
+          color: black;
+        }
+
+        .lang-list a {
+            text-decoration: none; /* يلغي التسطير تحت كل الروابط */
+        }
+
+        .perfume-img {
+            width: 150px; /* حجم الصورة الأساسي */
+            height: auto;
+            margin: 10px;
+            border-radius: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+            .perfume-img:hover {
+                transform: scale(1.1); /* تكبير عند الإشارة */
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* ظل جميل */
+            }
+
+        .language-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .language-button {
+            background-color: transparent;
+            color: black;
+            border: 1px solid black;
+            padding: 8px 12px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .language-menu {
+            display: none;
+            position: absolute;
+            background-color: white;
+            color: black;
+            min-width: 80px;
+            box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+            z-index: 1000;
+            border-radius: 4px;
+            margin-top: 4px;
+            padding: 0;
+            list-style: none;
+        }
+
+            .language-menu li a {
+                color: black;
+                padding: 8px 12px;
+                text-decoration: none;
+                display: block;
+            }
+
+                .language-menu li a:hover {
+                    background-color: #f0f0f0;
+                }
+
+        .nav-bar-links {
+            display: flex;
+            justify-content: center; /* التوسيط الأفقي */
+            align-items: center;
+            width: 100%;
+            margin: 10px 0;
+        }
+
+            .nav-bar-links ul {
+                display: flex;
+                list-style: none;
+                gap: 15px;
+                padding: 0;
+                margin: 0;
+                flex-wrap: wrap; /* يلف العناصر إذا لم تتسع الشاشة */
+                justify-content: center;
+            }
+
+            .nav-bar-links a {
+                text-decoration: none;
+                color: black;
+                font-weight: bold;
+                padding: 5px 10px;
+            }
+
+   
+        .nav-bar-links a {
+            font-size: 0.9rem;
+            padding: 4px 6px;
+        }
+
+
+        #logo {
+            font-size: 1.1rem !important;
+        }
+
+        /* تصغير الروابط */
+        .nav-bar-links a {
+            font-size: 0.9rem !important;
+        }
+
+        /* تصغير أيقونة القائمة */
+        .menu-container i {
+            font-size: 1rem !important;
+        }
+
+        /* تصغير عناصر القائمة المنسدلة */
+        #mainMenu a {
+            font-size: 0.85rem !important;
+            padding: 6px 10px !important;
+        }
+
+        /* تصغير عناصر الفورم */
+        #mainMenu form input,
+        #mainMenu form button {
+            font-size: 0.85rem !important;
+            padding: 5px !important;
+        }
+
+        /* تصغير زر اللغة والقائمة */
+        .language-button {
+            font-size: 0.85rem !important;
+        }
+
+        .language-menu a {
+            font-size: 0.85rem !important;
+        }
+
+        /* تقليل التباعد بين العناصر */
+        .navbar-container {
+            gap: 5px !important;
+        }
+
+        .nav-bar-links ul {
+            gap: 5px !important;
+        }
+
+       body{
+           background-image: url('../images/ww.jpeg');
+       }
+
+    </style>
+</head>
+<body>
+    @await Component.InvokeAsync("Announcements")
+    @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
+    <a href="@settings?.WhatsAppUrl" target="_blank"
+       style="
+     position: fixed;
+     bottom: 30px;
+     right: 30px;
+     background-color: #25d366;
+     width: 70px;
+     height: 70px;
+     border-radius: 50%;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     text-decoration: none;
+     box-shadow: 0 0 10px rgba(37, 211, 102, 0.7);
+     animation: pulse 2s infinite;
+     z-index: 9999;
+   ">
+        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="white" viewBox="0 0 24 24">
+            <path d="M20.52 3.48A11.64 11.64 0 0 0 12 0C5.373 0 0 5.373 0 12a11.65 11.65 0 0 0 2.81 7.48L0 24l4.73-2.75a11.65 11.65 0 0 0 7.27 2.21c6.627 0 12-5.373 12-12 0-3.2-1.25-6.21-3.48-8.48zm-1.64 12.14c-.29.8-1.6 1.52-2.2 1.62-.59.1-1.3.14-3-.6-2.8-1-4.6-4-4.7-4.1-.1-.1-1-1.2-1-2.3 0-1.1.58-1.6.79-1.83.2-.2.44-.2.6-.2.15 0 .3 0 .44.02.15.02.34.05.52.33.18.28.6 1 .64 1.1.05.1.07.18.01.3-.05.13-.1.3-.15.46-.05.15-.13.2-.27.35-.15.15-.32.36-.45.48-.15.13-.3.27-.12.52.18.25.8 1.3 1.7 2.1 1.17 1.05 2.16 1.4 2.5 1.55.34.14.55.12.75-.07.2-.2.8-.92 1-.1z" />
+        </svg>
+    </a>
+    <nav style="background-color: white; padding: 10px 0;">
+        <div style="display: flex; justify-content: center; align-items: center; gap: 20px; flex-wrap: wrap;">
+            <!-- اللوغو -->
+            <div>
+                <a id="logo" asp-action="Index" asp-controller="Home"
+                   style="font-size: 1rem; font-family: 'Tempus Sans ITC'; text-decoration: none; color: black;">
+                    @Localizer["SiteName"]
+                </a>
+            </div>
+            <div style="position: relative;" id="menuWrapper">
+                <button id="menuToggleBtn" style="background: none; border: none; font-size: 0.9rem; cursor: pointer;">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <ul id="mainMenu" class="mainMenu" style="display: none; position: absolute; top: 25px; left: 0; background: white; border: 1px solid #ccc; border-radius: 5px; padding: 5px; list-style: none; z-index: 100;">
+                    <li><a href="/" style="display: block; padding: 5px 10px; color: black; text-decoration: none;font-size:0.9rem;">    @Localizer["Home"]</a></li>
+                    <li><a href="/Products" style="display: block; padding: 5px 10px; color: black; text-decoration: none;font-size:0.9rem;">    @Localizer["Products"]</a></li>
+                    <li>
+                        <a href="/Home/Contact" style="display: block; padding: 5px 10px; color: black; text-decoration: none;font-size:0.9rem;">
+                            @Localizer["contact"]
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <script>
+                const toggleBtn = document.getElementById("menuToggleBtn");
+                const menu = document.getElementById("mainMenu");
+                const menuWrapper = document.getElementById("menuWrapper");
+
+                toggleBtn.addEventListener("click", function (e) {
+                    e.stopPropagation();
+
+                    // أغلق جميع القوائم المفتوحة أولاً
+                    document.querySelectorAll(".mainMenu").forEach(m => {
+                        if (m !== menu) m.style.display = "none";
+                    });
+
+                    // افتح أو أغلق القائمة الخاصة بهذا الزر
+                    menu.style.display = menu.style.display === "block" ? "none" : "block";
+                });
+
+                // إغلاق القائمة عند الضغط خارجها
+                document.addEventListener("click", function (event) {
+                    if (!menuWrapper.contains(event.target)) {
+                        menu.style.display = "none";
+                    }
+                });
+            </script>
+
+
+            <!-- Dropdown: Login/Register -->
+            <div style="position: relative;">
+                <button onclick="toggleDropdown('authMenu')" style="background: none; border: none; font-size: 0.9rem; cursor: pointer;">
+                    <i class="fas fa-user fa-lg"></i>
+                </button>
+                <ul id="authMenu" class="mainMenu" style="display: none; position: absolute; top: 25px; left: 0; background: white; border: 1px solid #ccc; border-radius: 5px; padding: 5px; list-style: none; z-index: 100;">
+                    <li><a href="/Home/Login" style="display: block; padding: 5px 10px; color: black; text-decoration: none;">@Localizer["login"]</a></li>
+                    <li><a href="/Home/Register" style="display: block; padding: 5px 10px; color: black; text-decoration: none;">@Localizer["signup"]</a></li>
+                </ul>
+            </div>
+
+        
+
+            <!-- Search Icon with input box -->
+            <div id="searchBoxContainer" style="position: relative;">
+                <a href="javascript:void(0);" onclick="toggleSearchBox()" title="Search" style="font-size: 1rem; color: black;">
+                    <i class="fas fa-search"></i>
+                </a>
+                <form id="searchForm" action="/Home/Search" method="get" style="display:none; position: absolute; top: 30px;">
+                    <input type="text" name="query" placeholder="@Localizer["search"]..." class="form-control" style="width: 90px; display:inline-block;" />
+                    <button type="submit" class="btn btn-sm btn-dark">@Localizer["search"]</button>
+                </form>
+            </div>
+
+
+            <!-- Cart Icon -->
+            <a href="/Cart/ViewCart" title="Cart" style="font-size: 1rem; color: black; text-decoration: none; position: relative;">
+                <i class="fas fa-shopping-cart"></i>
+                <span id="cart-count" style="position: absolute; top: -5px; right: -8px; font-size: 0.6rem; background-color: red; color: white; border-radius: 50%; padding: 1px 4px;">
+                    @await Html.PartialAsync("_CartCountPartial")
+                </span>
+            </a>
+
+            <!-- Dropdown: Language -->
+            <div style="position: relative;">
+                <button onclick="toggleDropdown('langMenu')" style="background: none; border: none; font-size: 0.9rem; cursor: pointer;">
+                    🌐 @culture.ToUpper() <i class="fas fa-caret-down"></i>
+                </button>
+                <ul id="langMenu" class="mainMenu" style="display: none; position: absolute; top: 25px; left: 0; background: white; border: 1px solid #ccc; border-radius: 5px; padding: 5px; list-style: none; z-index: 100;">
+                    <li><a href="javascript:void(0);" onclick="changeLanguage('en')" style="display: block; padding: 5px 10px; color: black; text-decoration: none;">EN</a></li>
+                    <li><a href="javascript:void(0);" onclick="changeLanguage('ar')" style="display: block; padding: 5px 10px; color: black; text-decoration: none;">AR</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <script>
+        function toggleDropdown(id) {
+            const el = document.getElementById(id);
+            el.style.display = el.style.display === 'block' ? 'none' : 'block';
+        }
+    </script>
+
+    <script>
+        function toggleSearchBox() {
+            const form = document.getElementById('searchForm');
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // إغلاق مربع البحث عند النقر خارجًا
+        window.addEventListener("click", function (event) {
+            const form = document.getElementById("searchForm");
+            const searchIcon = document.querySelector("a[title='Search']");
+            if (!form.contains(event.target) && !searchIcon.contains(event.target)) {
+                form.style.display = "none";
+            }
+        });
+    </script>
+
+    <script>
+
+
+        function toggleLanguageMenu() {
+            const langMenu = document.getElementById("languageMenu");
+            langMenu.style.display = (langMenu.style.display === "none" || langMenu.style.display === "") ? "block" : "none";
+        }
+
+        // هذا مجرد مثال - تحتاج لربطه بالخادم لتغيير اللغة فعليًا
+        function changeLanguage(lang) {
+            window.location.href = '/Home/ChangeLanguage?culture=' + lang;
+        }
+
+        // إغلاق القوائم عند النقر خارجها
+        window.addEventListener("click", function (event) {
+            const languageMenu = document.getElementById("languageMenu");
+            const menuIcon = document.querySelector(".menu-container i");
+
+            if (!mainMenu.contains(event.target) && event.target !== menuIcon) {
+                mainMenu.style.display = "none";
+                languageMenu.style.display = "none";
+            }
+        });
+    </script>
+
+    <script>
+        function toggleLanguageMenu() {
+            var menu = document.getElementById("languageMenu");
+            if (menu.style.display === "none") {
+                menu.style.display = "block";
+            } else {
+                menu.style.display = "none";
+            }
+        }
+    </script>
+    </nav>
+  
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    <div class="container-1" id="main-container">
+        <div class="container-text">
+            <h1 class="large-text"></h1>
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <button style="background-color:black;font-size:1.4rem;color:white;" class="button-style" onclick="location.href='@Url.Action("Index", "Products")'">@Localizer["ShopNow"]</button>
+            <br />
+            <h3 style="font-size:2rem; color:white;font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">@Localizer["h1"]</h3>
+
+            <br />
+        </div>
+        <div></div> <!-- ممكن تضعين صورة داخلية هنا لو احتجت -->
+    </div>
+    <br>
+
+        <section class="hero-section">
+        <div class="hero-heading">
+            <h2> @Localizer["OurProducts "] </h2>
+        </div>
+    </section>
+
+    <div class="container-4">
+        @* <h3 class="big-text">@Localizer["OurProducts "]</h3> *@
+        <br>
+
+
+        <form method="get" action="/Products">
+            <button style="background-color:black;color:white;"  type="submit" class="button-style">@Localizer["ViewAll"]</button>
+        </form>
+
+	</div>
+
+
+
+
+        @await Component.InvokeAsync("HomeProducts")
+
+
+        <br />
+        <br />
+        <br />
+    <section class="hero-section">
+        <div class="hero-heading">
+            <h2> @Localizer["D"] </h2>
+        </div>
+    </section>
+
+    <section id="imageSlider" style="position: relative; width: 100vw; height: 40rem; overflow: hidden; margin: 40px 0;">
+       
+        <div class="slide active" style="background-image: url('/Perfume-Store-main/images/09.jpeg');">  
+       </div>
+        <div class="slide active" style="background-image: url('/Perfume-Store-main/images/01.jpeg');">
+
+
+        </div>
+        <div class="slide active" style="background-image: url('/Perfume-Store-main/images/04.jpeg');"></div>
+        <div class="slide active" style="background-image: url('/Perfume-Store-main/images/05.jpeg');"></div>
+        <div class="slide active" style="background-image: url('/Perfume-Store-main/images/06.jpeg');"></div>
+        <div class="slide active" style="background-image: url('/Perfume-Store-main/images/07.jpeg');"></div>
+        <div class="slide active" style="background-image: url('/Perfume-Store-main/images/03.jpeg');"></div>
+        <div class="slide active" style="background-image: url('/Perfume-Store-main/images/Alien-EDP-by-Mugler.jpg');"></div>
+        <div class="slide active" style="background-image: url('/Perfume-Store-main/images/23.jpeg');"></div>
+        <div class="slide active" style="background-image: url('/Perfume-Store-main/images/022.jpeg');"></div>
+        <div class="slide active" style="background-image: url('/Perfume-Store-main/images/033.jpeg');"></div>
+        <div class="slide active" style="background-image: url('/Perfume-Store-main/images/0101.jpeg');"></div>
+
+    </section>
+
+    <style>
+
+        .hero-heading {
+            text-align: center;
+            margin-top: 40px;
+            margin-bottom: 30px;
+        }
+
+            .hero-heading h2 {
+                font-size: 3rem;
+                font-family: 'Playfair Display', serif;
+                font-weight: 600;
+                color: #3a2c27;
+                position: relative;
+                display: inline-block;
+                padding-bottom: 10px;
+            }
+
+                .hero-heading h2::after {
+                    content: '';
+                    width: 60%;
+                    height: 3px;
+                    background: #c9a06c;
+                    position: absolute;
+                    bottom: 0;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    border-radius: 5px;
+                }
+
+        #imageSlider {
+            position: relative;
+            width: 100vw;
+            height: 40rem;
+            overflow: hidden;
+            margin: 40px 0;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 600px;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            filter: brightness(1);
+            border-radius: 0;
+        }
+
+            .slide.active {
+                opacity: 1;
+                animation: shine 3s ease-in-out infinite;
+            }
+
+    
+    </style>
+
+    <script>
+        (function() {
+            const slides = document.querySelectorAll('#imageSlider .slide');
+            let current = 0;
+
+            function showSlide(index) {
+                slides.forEach((slide, i) => {
+                    slide.classList.toggle('active', i === index);
+                });
+            }
+
+            function nextSlide() {
+                current = (current + 1) % slides.length;
+                showSlide(current);
+            }
+
+            showSlide(current);
+            setInterval(nextSlide, 3000);
+        })();
+    </script>
+
+
+
+<section id="why-choose-us" style="background-color: #f8f8f8; padding: 60px 20px;">
+    <div style="text-align: center; margin-bottom: 40px;">
+        <h2 style="font-size: 2rem; margin-bottom: 10px;">
+                    @Localizer["WhyUs"]
+        </h2>
+        <p style="font-size: 1rem; color: #666;">
+                    @Localizer["s1"]
+        </p>
+    </div>
+
+    <div class="why-us-grid-4">
+        <div class="feature-box">
+            <i class="fas fa-truck-fast"></i>
+            <h4>@Localizer["serv1"]</h4>
+            <p>@Localizer["s2"]</p>
+        </div>
+        <div class="feature-box">
+            <i class="fas fa-award"></i>
+            <h4>@Localizer["serv2"]</h4>
+            <p>@Localizer["s3"]</p>
+        </div>
+        <div class="feature-box">
+                    <i class="fas fa-spray-can"></i>
+                    <h4>@Localizer["serv3"]</h4>
+            <p>@Localizer["s4"]</p>
+        </div>
+        <div class="feature-box">
+            <i class="fas fa-shopping-cart"></i>
+            <h4>@Localizer["serv4"]</h4>
+            <p>@Localizer["s5"]</p>
+        </div>
+    </div>
+</section>
+
+
+
+
+    <footer id="footer" style="background-color: #D8D2D2; color: black; padding: 40px 20px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 30px; font-family: sans-serif;">
+
+        <!-- وصف عن الموقع -->
+            <div style="flex: 1 1 200px;text-align: left;">
+<h2 style="font-size: 24px; margin-bottom: 15px;">
+    <a asp-action="Index" asp-controller="Home" class="site-link">
+                        @Localizer["SiteName"]
+    </a>
+</h2>
+
+            <p style="font-size: 14px; line-height: 1.7;">
+                @Localizer["aboutUS"]
+            </p>
+            <p style="margin-top: 20px; font-size: 15px;">
+                @Localizer["Copyright"]</ p >
+        </div>
+
+        <!-- أوقات الدوام وروابط السوشيال -->
+        <div style="flex: 1 20px;">
+   
+
+        
+        </div>
+
+        <!-- تواصل معنا -->
+        <div style="flex: 1 1 200px;">
+            <h3 style="font-size: 18px; margin-bottom: 15px;">
+                @Localizer["ContactUs"]</h3>
+            <p style="font-size: 14px;">@Localizer["Phone"]: @settings?.Phone</p>
+            <p style="font-size: 14px;">@Localizer["Email"]: @settings?.Email</p>
+            <p style="font-size: 14px;"> @settings?.Address</p>
+            <div style="margin-top: 15px;">
+                <a href="@settings?.FacebookUrl" target="_blank"><img src="~/Perfume-Store-main/logos/facebook.png" alt="Facebook" style="width: 28px; margin-right: 10px;"></a>
+                <a href="@settings?.InstagramUrl" target="_blank"><img src="~/Perfume-Store-main/logos/instagram.png" alt="Instagram" style="width: 28px; margin-right: 10px;"></a>
+                    <a href="@settings?.WhatsAppUrl" target="_blank"><img src="~/Perfume-Store-main/logos/wapp.png" alt="Pinterest" style="width: 70px;margin-left: -1.5rem;margin-bottom: 0.1rem;"></a>
+            </div>
+        </div>
+
+        <!-- سجل ايميلك وطرق الدفع -->
+        <div style="flex: 1 1 250px;">
+            <h3 style="font-size: 18px; margin-bottom: 15px;">@Localizer["sEmail"]</h3>
+            <form method="post" asp-controller="Home" asp-action="SubscribeEmail" style="display: flex;">
+                <input type="email" name="email" required
+                       placeholder="@Localizer["s2Email"]"
+                       style="flex: 1; padding: 8px; border-radius: 4px 0 0 4px; border: none;" />
+                <button type="submit"
+                        style="padding: 8px 16px; background-color: #ffcc00; border: none; border-radius: 0 4px 4px 0;">
+                    @Localizer["Subscribe"]
+                </button>
+            </form>
+
+                        <br />
+
+            @* <h4 style="margin-top: 25px;">@Localizer["Payments"]</h4> *@
+            <div style="display: flex; gap: 10px; align-items: center;">
+                  @*   <i class="fa-brands fa-cc-visa fa-2x"></i> <!-- Visa Blue -->
+                    <i class="fa-brands fa-cc-mastercard fa-2x"></i> <!-- MasterCard Red -->
+                    <i class="fa-brands fa-cc-paypal fa-2x"></i> <!-- PayPal Blue --> *@
+               
+                <img src="~/Perfume-Store-main/logos/NicePng_visa-mastercard-png_2720211.png"
+                     alt="Mada"
+                     style="height: 32px; vertical-align: middle;" />
+                <img src="~/Perfume-Store-main/logos/NicePng_pokemon-logo-png_50608.png"
+                     alt="Mada"
+                     style="height: 32px; vertical-align: middle;" />
+                      <img src="~/Perfume-Store-main/logos/NicePng_rupay-card-png_3654057.png"
+                     alt="Mada"
+                     style="height: 32px; vertical-align: middle;" />
+                    @* <i class="fa-solid fa-money-bill-wave fa-2x"></i> <!-- Cash Green --> *@
+            </div>
+        </div>
+
+    </footer>
+
+
+
+
+
+
+
+
+    <script>
+        function toggleLanguageMenu() {
+            const menu = document.getElementById("languageMenu");
+            menu.style.display = (menu.style.display === "block") ? "none" : "block";
+        }
+
+        // إغلاق القائمة إذا ضغط المستخدم خارجها
+        window.onclick = function(event) {
+            if (!event.target.matches('.language-button')) {
+                var dropdowns = document.getElementsByClassName("language-menu");
+                for (let i = 0; i < dropdowns.length; i++) {
+                    dropdowns[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+
+
+    <script>
+        // إظهار أو إخفاء صندوق البحث عند الضغط على الأيقونة
+        document.getElementById("searchIcon").addEventListener("click", function () {
+            var dropdown = document.getElementById("searchDropdown");
+            if (dropdown.style.display === "none" || dropdown.style.display === "") {
+                dropdown.style.display = "block";
+            } else {
+                dropdown.style.display = "none";
+            }
+        });
+
+        // إرسال البحث عند الضغط على Enter داخل الحقل
+        document.getElementById("searchInput").addEventListener("keypress", function (event) {
+            if (event.key === "Enter") {
+                event.preventDefault(); // منع إعادة تحميل الصفحة
+                document.getElementById("searchButton").click();
+            }
+        });
+    </script>
+
+
+@*     <script>
+          document.getElementById("searchButton").addEventListener("click", function () {
+            let query = document.getElementById("searchInput").value.trim();
+            if (query) {
+                window.location.href = "/Home/Search?query=" + encodeURIComponent(query);
+            }
+        });
+
+        document.getElementById("searchInput").addEventListener("keypress", function (event) {
+            if (event.key === "Enter") {
+                document.getElementById("searchButton").click();
+            }
+        });
+    </script> *@
+  @*   <script>
+        const searchIcon = document.getElementById("searchIcon");
+        const searchForm = document.getElementById("searchForm");
+
+        // عند الضغط على الأيقونة يظهر صندوق البحث
+        searchIcon.addEventListener("click", () => {
+            if (searchForm.style.display === "none") {
+                searchForm.style.display = "block";
+                searchForm.querySelector('input').focus();
+            } else {
+                searchForm.style.display = "none";
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener("click", function (event) {
+            const isClickInside = searchForm.contains(event.target) || searchIcon.contains(event.target);
+
+            if (!isClickInside) {
+                searchForm.style.display = "none";
+            }
+        });
+    </script>
+ *@
+
+
+    <script>
+        function toggleUserMenu() {
+            const menu = document.getElementById("userMenu");
+            menu.style.display = menu.style.display === "block" ? "none" : "block";
+        }
+
+        document.addEventListener("click", function (event) {
+            const menu = document.getElementById("userMenu");
+            const icon = document.querySelector(".fa-user");
+
+            if (!menu.contains(event.target) && event.target !== icon) {
+                menu.style.display = "none";
+            }
+        });
+    </script>
+    <script>
+        function updateCartCount() {
+            $.ajax({
+                url: '@Url.Action("GetCartItemCount", "Cart")',
+                type: 'GET',
+                success: function (count) {
+                    $('#cart-count').text(count);
+                },
+                error: function () {
+                    console.error("خطأ في جلب عدد عناصر السلة");
+                }
+            });
+        }
+
+        // عند تحميل الصفحة
+        $(document).ready(function () {
+            updateCartCount();
+        });
+    </script>
+
+
+
+
+    <script>
+        function changeLanguage(lang) {
+            // الحصول على المسار الكامل مع الاستعلام
+            const currentUrl = window.location.pathname + window.location.search;
+
+            // إنشاء رابط التحويل مع الاحتفاظ بالرابط الحالي
+            const newUrl = `/Language/SetLanguage?culture=${lang}&returnUrl=${encodeURIComponent(currentUrl)}`;
+
+            // التوجيه للرابط الجديد
+            window.location.href = newUrl;
+        }
+    </script>
+    <script>
+        success: function (response) {
+            if (response.success) {
+                $('#cart-count').text(response.cartCount);
+                $('#myModal').show();
+            }
+        }
+</script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
+        <script>
+            // إظهار أو إخفاء صندوق البحث عند الضغط على الأيقونة
+            document.getElementById("searchIcon").addEventListener("click", function () {
+                var dropdown = document.getElementById("searchDropdown");
+                if (dropdown.style.display === "none" || dropdown.style.display === "") {
+                    dropdown.style.display = "block";
+                } else {
+                    dropdown.style.display = "none";
+                }
+            });
+
+            // إرسال البحث عند الضغط على Enter داخل الحقل
+            document.getElementById("searchInput").addEventListener("keypress", function (event) {
+                if (event.key === "Enter") {
+                    event.preventDefault(); // منع إعادة تحميل الصفحة
+                    document.getElementById("searchButton").click();
+                }
+            });
+        </script>
+
+
+
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+
+
+        <script>
+            function toggleUserMenu() {
+                const menu = document.getElementById("userMenu");
+                menu.style.display = menu.style.display === "block" ? "none" : "block";
+            }
+
+            document.addEventListener("click", function (event) {
+                const menu = document.getElementById("userMenu");
+                const icon = document.querySelector(".fa-user");
+
+                if (!menu.contains(event.target) && event.target !== icon) {
+                    menu.style.display = "none";
+                }
+            });
+        </script>
+        <script>
+            function updateCartCount() {
+                $.ajax({
+                    url: '@Url.Action("GetCartItemCount", "Cart")',
+                    type: 'GET',
+                    success: function (count) {
+                        $('#cart-count').text(count);
+                    },
+                    error: function () {
+                        console.error("خطأ في جلب عدد عناصر السلة");
+                    }
+                });
+            }
+
+            // عند تحميل الصفحة
+            $(document).ready(function () {
+                updateCartCount();
+            });
+        </script>
+
+
+        <script>
+            function changeLanguage(lang) {
+                // الحصول على المسار الكامل مع الاستعلام
+                const currentUrl = window.location.pathname + window.location.search;
+
+                // إنشاء رابط التحويل مع الاحتفاظ بالرابط الحالي
+                const newUrl = `/Language/SetLanguage?culture=${lang}&returnUrl=${encodeURIComponent(currentUrl)}`;
+
+                // التوجيه للرابط الجديد
+                window.location.href = newUrl;
+            }
+        </script>
+
+
+
+        <script>
+            success: function (response) {
+                if (response.success) {
+                    $('#cart-count').text(response.cartCount);
+                    $('#myModal').show();
+                }
+            }
+        </script>
+
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+        <script>
+            // عرض أو إخفاء القائمة عند الضغط على الزر
+            function toggleDropdown(id) {
+                var menu = document.getElementById(id);
+
+                // إغلاق جميع القوائم الأخرى
+                var allMenus = document.querySelectorAll("ul[id$='Menu']");
+                allMenus.forEach(function (item) {
+                    if (item.id !== id) {
+                        item.style.display = "none";
+                    }
+                });
+
+                // تبديل عرض القائمة الحالية
+                if (menu.style.display === "none" || menu.style.display === "") {
+                    menu.style.display = "block";
+                } else {
+                    menu.style.display = "none";
+                }
+            }
+
+            // قائمة المستخدم فقط
+            function toggleUserMenu() {
+                toggleDropdown('userMenu');
+            }
+
+            // البحث
+            document.addEventListener('DOMContentLoaded', function () {
+                var searchIcon = document.getElementById("searchIcon");
+                var searchDropdown = document.getElementById("searchDropdown");
+
+                if (searchIcon && searchDropdown) {
+                    searchIcon.addEventListener("click", function () {
+                        if (searchDropdown.style.display === "none" || searchDropdown.style.display === "") {
+                            searchDropdown.style.display = "block";
+                        } else {
+                            searchDropdown.style.display = "none";
+                        }
+                    });
+                }
+            });
+
+            // إغلاق القوائم عند النقر خارجها
+            document.addEventListener("click", function (e) {
+                const isDropdownButton = e.target.matches("button, i, a");
+                if (!isDropdownButton) {
+                    document.querySelectorAll("ul[id$='Menu']").forEach(function (menu) {
+                        menu.style.display = "none";
+                    });
+                    var searchDropdown = document.getElementById("searchDropdown");
+                    if (searchDropdown) searchDropdown.style.display = "none";
+                }
+            });
+        </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+﻿@using Microsoft.AspNetCore.Localization
+
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/partialLayout.cshtml";
+}
+@model WebAppPerfumes01.Models.ViewModels.RegisterViewModel
+
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
+
+<style>
+    body {
+        background-color: whitesmoke;
+        color: black;
+    }
+
+    .login-box {
+        max-width: 400px;
+        margin: 80px auto;
+        padding: 30px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h4, label {
+        color: black;
+    }
+</style>
+
+
+<div class="login-box">
+    <h4 class="text-center mb-4">@Localizer["Login"]</h4>
+
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-info">@TempData["Message"]</div>
+    }
+
+    <!-- Form to send the code -->
+    <form method="post" asp-controller="Home" asp-action="SendCode">
+        <div class="mb-2">
+            <input type="email" name="email" class="form-control" placeholder="@Localizer["EmailPlaceholder"]" required /><br />
+            <button class="btn btn-dark w-100 mt-2" type="submit">@Localizer["SendCode"]</button>
+            <br /><br />
+        </div>
+    </form>
+
+    <p>@Localizer["DontHaveAccount"] <a href="@Url.Action("Register", "Home")">@Localizer["Registerhere"]</a></p>
+</div>
+
+
