@@ -7,6 +7,7 @@ The application provides a complete online shopping experience with role-based a
 ---
 ## 💡 Why This Project Stands Out
 > ⭐ This project highlights real-world software engineering practices and scalable design.
+
 This project is not just a basic e-commerce website, but a complete system that demonstrates real-world software engineering practices.
 
 - Designed with a clear **separation of concerns** using ASP.NET MVC Areas (Admin & User), improving scalability and maintainability  
